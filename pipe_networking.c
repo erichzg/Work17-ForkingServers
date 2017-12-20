@@ -16,9 +16,9 @@ int server_setup() {
   int from_client;
 
   char buffer[HANDSHAKE_BUFFER_SIZE];
-
+	printf("pls");
   mkfifo("luigi", 0600);
-
+	printf("p");
   //block on open, recieve mesage
   printf("[server] handshake: making wkp\n");
   from_client = open( "luigi", O_RDONLY, 0);
@@ -79,7 +79,7 @@ int server_handshake(int *to_client) {
 
   //block on open, recieve mesage
   printf("[server] handshake: making wkp\n");
-  from_client = open( "luigi", O_RDONLY, 0);
+  from_client = open( "luigi", O_RDONLY, 0600);
   read(from_client, buffer, sizeof(buffer));
   printf("[server] handshake: received [%s]\n", buffer);
 
@@ -87,7 +87,7 @@ int server_handshake(int *to_client) {
   printf("[server] handshake: removed wkp\n");
 
   //connect to client, send message
-  *to_client = open(buffer, O_WRONLY, 0);
+  *to_client = open(buffer, O_WRONLY, 0600);
   write(*to_client, buffer, sizeof(buffer));
 
   //read for client
@@ -113,7 +113,7 @@ int client_handshake(int *to_server) {
 
   //send pp name to server
   printf("[client] handshake: connecting to wkp\n");
-  *to_server = open( "luigi", O_WRONLY, 0);
+  *to_server = open( "luigi", O_WRONLY, 0600);
   if ( *to_server == -1 )
     exit(1);
 

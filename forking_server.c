@@ -13,7 +13,7 @@ static void sighandler(int signo) {
 }
 
 int main() {
-  sighandler(SIGINT);
+  signal(SIGINT, sighandler);
   
   int from_client;
   int f;
@@ -36,7 +36,7 @@ void subserver(int from_client) {
   while (1) {
     read(from_client, input_string, 256);
     printf("[subserver %d] Recieved: %s\n", getpid(), input_string);
-    printf("length of string: %d\n", strlen(input_string));
+    //printf("length of string: %d\n", strlen(input_string));
     process(input_string);
     write(to_client, input_string, strlen(input_string));
   }
